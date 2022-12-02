@@ -1,7 +1,7 @@
 name: Build and test exercises
 
 env:
-  DOTNET_VERSION: '7'
+  DOTNET_VERSION: '7.0'
 
 on:
   push:
@@ -20,8 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v2
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
