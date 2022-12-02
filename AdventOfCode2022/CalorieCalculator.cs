@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode2022
@@ -12,20 +13,25 @@ namespace AdventOfCode2022
             _dataProvider = dataProvider;
         }
 
-        public int GetMaxCalories()
+        public int GetSumOfMaxCalories(int numberOfTopCalories = 1)
         {
-            var maximumSum = 0;
+            return AllCalorieSums().OrderDescending().Take(numberOfTopCalories).Sum();
+        }
 
-            var lastSum = _dataProvider.LoadData().Aggregate(0, (currentSum, calorieEntry) => {
+        public IEnumerable<int> AllCalorieSums() 
+        {
+            var currentSum = 0;
+            foreach (var calorieEntry in _dataProvider.LoadData())
+            {
                 if (string.IsNullOrEmpty(calorieEntry))
                 {
-                    maximumSum = Math.Max(currentSum, maximumSum);
-                    return 0;
+                    yield return currentSum; 
+                    currentSum = 0;
+                    continue;
                 }
-                return currentSum + int.Parse(calorieEntry);
-            });
-
-            return Math.Max(lastSum, maximumSum);
+                currentSum+=int.Parse(calorieEntry);
+            }
+            yield return currentSum;
         }
     }
 }

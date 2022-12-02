@@ -15,7 +15,7 @@ namespace AdventOfCode2022Tests
             dataProvider.LoadData().Returns(new List<string>());
             var sut = CreateCalorieCalculator(dataProvider);
 
-            sut.GetMaxCalories().Should().Be(0);
+            sut.GetSumOfMaxCalories().Should().Be(0);
         }
 
         [Test]
@@ -28,28 +28,33 @@ namespace AdventOfCode2022Tests
             });
             var sut = CreateCalorieCalculator(dataProvider);
 
-            sut.GetMaxCalories().Should().Be(600);
+            sut.GetSumOfMaxCalories().Should().Be(600);
         }
 
-        [Test]
-        public void MultiEntryList_ReturnsBiggestSumOfCalories()
+        [TestCase(1, 6000)]
+        [TestCase(2, 6600)]
+        [TestCase(3, 6660)]
+        public void MultiEntryList_ReturnsBiggestSumOfCalories(int numberOfTopCalories, int expectedSum)
         {
             var dataProvider = Substitute.For<IDataProvider>();
             dataProvider.LoadData().Returns(new List<string>()
             {
-                "10", "20", "30", "", "1000", "2000", "3000", "", "100", "200", "300"
+                "10", "20", "30", "", "1", "2", "", "1000",
+                "2000", "3000", "", "100", "200", "300"
             });
             var sut = CreateCalorieCalculator(dataProvider);
 
-            sut.GetMaxCalories().Should().Be(6000);
+            sut.GetSumOfMaxCalories(numberOfTopCalories).Should().Be(expectedSum);
         }
 
-        [Test]
-        public void ExcerciseList_ReturnsCorrectAnswer()
+        
+        [TestCase(1, 64929)]
+        [TestCase(3, 193697)]
+        public void ExcerciseList_ReturnsCorrectAnswer(int numberOfTopCalories, int expectedSum)
         {
             var sut = CreateCalorieCalculator(new ResourceDataProvider("AdventOfCode2022Tests.Data.Day1Exercise1.txt"));
 
-            sut.GetMaxCalories().Should().Be(64929);
+            sut.GetSumOfMaxCalories(numberOfTopCalories).Should().Be(expectedSum);
         }
 
         private CalorieCalculator CreateCalorieCalculator(IDataProvider dataProvider)
