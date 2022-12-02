@@ -3,6 +3,10 @@
 		<TargetFramework>net7.0</TargetFramework>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Data\Day2Exercise1.txt" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Include="Data\Day2Exercise1.txt" />
 	  <EmbeddedResource Include="Data\Day1Exercise1.txt" />
 	</ItemGroup>
 	<ItemGroup>
