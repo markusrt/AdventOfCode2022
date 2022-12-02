@@ -34,4 +34,4 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Test with dotnet
-        run: dotnet test --configuration Release
+        run: dotnet test --configuration Release -p:CollectCoverage=true -p:CoverletOutputFormat=\"json,opencover\" -p:SkipAutoProps=true
