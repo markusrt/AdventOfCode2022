@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static AdventOfCode2022.RockPaperScissors;
 
 namespace AdventOfCode2022
 {
     public class RockPaperScissorsStrategyEvaluator
     {
         private IDataProvider _dataProvider;
+        private readonly IRockPaperScissorStrategy _strategy;
 
-        public RockPaperScissorsStrategyEvaluator(IDataProvider dataProvider)
+        public RockPaperScissorsStrategyEvaluator(IDataProvider dataProvider, IRockPaperScissorStrategy strategy)
         {
             _dataProvider = dataProvider;
+            this._strategy = strategy;
         }
 
         public int GetStrategyScore()
@@ -23,12 +26,10 @@ namespace AdventOfCode2022
             foreach (var gameResultEntry in _dataProvider.LoadData())
             {
                 var score = 0;
-                var hisResult = GetHisResult(gameResultEntry);
-                var myResult = GetMyResult(gameResultEntry);
+                var hisResult = _strategy.GetHisResult(gameResultEntry);
+                var myResult = _strategy.GetMyResult(gameResultEntry);
 
-                var iWon = (myResult == Result.Rock && hisResult == Result.Scissors) 
-                    || (myResult == Result.Paper && hisResult == Result.Rock)
-                    || (myResult == Result.Scissors && hisResult == Result.Paper);
+                var iWon = LooseMap[myResult] == hisResult;
                 var itWasADraw = myResult == hisResult;
 
                 if (iWon)
@@ -44,38 +45,5 @@ namespace AdventOfCode2022
                 yield return score;
             }
         }
-
-        private Result GetHisResult(string gameResultEntry)
-        {
-            var result = gameResultEntry.First();
-            if (result == 'A')
-            {
-                return Result.Rock;
-            }
-            if (result == 'B')
-            {
-                return Result.Paper;
-            }
-            return Result.Scissors;
-        }
-
-        private Result GetMyResult(string gameResultEntry)
-        {
-            var result = gameResultEntry.Last();
-            if (result == 'X')
-            {
-                return Result.Rock;
-            }
-            if (result == 'Y')
-            {
-                return Result.Paper;
-            }
-            return Result.Scissors;
-        }
-    }
-
-    enum Result
-    {
-        Rock = 1, Paper = 2, Scissors = 3
     }
 }

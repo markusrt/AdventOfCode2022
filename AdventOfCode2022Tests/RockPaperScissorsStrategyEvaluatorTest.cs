@@ -33,16 +33,26 @@ namespace AdventOfCode2022Tests
 
 
         [Test]
-        public void ExcerciseList_ReturnsCorrectScore()
+        public void ExcerciseList_AssumedStrategy_ReturnsCorrectScore()
         {
             var sut = CreateCalorieCalculator(new ResourceDataProvider("AdventOfCode2022Tests.Data.Day2Exercise1.txt"));
 
             sut.GetStrategyScore().Should().Be(14827);
         }
 
+          [Test]
+        public void ExcerciseList_RealStrategy_ReturnsCorrectScore()
+        {
+            var sut = new RockPaperScissorsStrategyEvaluator(
+                new ResourceDataProvider("AdventOfCode2022Tests.Data.Day2Exercise1.txt"),
+                new TheRealStrategy());
+
+            sut.GetStrategyScore().Should().Be(13889);
+        }
+
         private RockPaperScissorsStrategyEvaluator CreateCalorieCalculator(IDataProvider dataProvider)
         {
-            return new RockPaperScissorsStrategyEvaluator(dataProvider);
+            return new RockPaperScissorsStrategyEvaluator(dataProvider, new TheAssumedStrategy());
         }
     }
 }
