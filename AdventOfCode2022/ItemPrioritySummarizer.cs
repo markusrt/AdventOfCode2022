@@ -18,9 +18,15 @@ namespace AdventOfCode2022
             return DuplicateItemPriorities().Sum();
         }
 
+        public int GetSumOfGroupBadgePriorities()
+        {
+            return GroupBadgePriorities().Sum();
+        }
+
         public IEnumerable<int> DuplicateItemPriorities() 
         {
             char duplicateItem = ' ';
+
             foreach (var rucksackContent in _dataProvider.LoadData())
             {
                 var halfSize = rucksackContent.Length/2;
@@ -30,6 +36,25 @@ namespace AdventOfCode2022
                 duplicateItem = firstCompartment.First(item => secondCompartment.Contains(item));
                 yield return ItemUtils.ItemPriority(duplicateItem);
             }
+        }
+
+        public IEnumerable<int> GroupBadgePriorities() 
+        {
+            var skip = 0;
+            var allGroups = _dataProvider.LoadData();
+            do 
+            {
+                var groupItems = allGroups.Skip(skip).Take(3).ToList();
+                var elf1Inventory = groupItems[0];
+                var elf2Inventory = groupItems[1];
+                var elf3Inventory = groupItems[2];
+
+                var commonItem = elf1Inventory.First(
+                    item => elf2Inventory.Contains(item) && elf3Inventory.Contains(item));
+                yield return ItemUtils.ItemPriority(commonItem);
+                
+                skip+=3;
+            } while(skip <= allGroups.Count()-3);
         }
     }
 }

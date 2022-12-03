@@ -9,7 +9,7 @@ namespace AdventOfCode2022Tests
     public class ItemPrioritySummarizerTest
     {
         [Test]
-        public void ExampleStrategy_ReturnsPriority()
+        public void FirstPartExample_ReturnsCorrectPriority()
         {
             var dataProvider = Substitute.For<IDataProvider>();
             dataProvider.LoadData().Returns(new List<string>()
@@ -35,15 +35,31 @@ namespace AdventOfCode2022Tests
             sut.GetSumOfPriorities().Should().Be(8202);
         }
 
-        //   [Test]
-        // public void ExcerciseList_RealStrategy_ReturnsCorrectScore()
-        // {
-        //     var sut = new RockPaperScissorsStrategyEvaluator(
-        //         new ResourceDataProvider("AdventOfCode2022Tests.Data.Day2Exercise1.txt"),
-        //         new TheRealStrategy());
+        [Test]
+        public void SecondPartExample_ReturnsCorrectPriority()
+        {
+            var dataProvider = Substitute.For<IDataProvider>();
+            dataProvider.LoadData().Returns(new List<string>()
+            {
+                "vJrwpWtwJgWrhcsFMMfFFhFp",
+                "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
+                "PmmdzqPrVvPwwTWBwg",
+                "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn",
+                "ttgJtRGJQctTZtZT",
+                "CrZsJsPPZsGzwwsLwLmpwMDw"
+            });
+            var sut = CreateItemPrioritySummarizer(dataProvider);
 
-        //     sut.GetStrategyScore().Should().Be(13889);
-        // }
+            sut.GetSumOfGroupBadgePriorities().Should().Be(70);
+        }
+
+        [Test]
+        public void ExcerciseList_SecondPart_ReturnsCorrectPriority()
+        {
+            var sut = CreateItemPrioritySummarizer(new ResourceDataProvider("AdventOfCode2022Tests.Data.Day3.txt"));
+
+            sut.GetSumOfGroupBadgePriorities().Should().Be(2864);
+        }
 
         private ItemPrioritySummarizer CreateItemPrioritySummarizer(IDataProvider dataProvider)
         {
