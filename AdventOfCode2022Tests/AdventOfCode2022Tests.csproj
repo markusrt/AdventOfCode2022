@@ -6,6 +6,7 @@
 	  <None Remove="Data\Day2Exercise1.txt" />
 	</ItemGroup>
 	<ItemGroup>
+	  <EmbeddedResource Include="Data\Day3.txt" />
 	  <EmbeddedResource Include="Data\Day2Exercise1.txt" />
 	  <EmbeddedResource Include="Data\Day1Exercise1.txt" />
 	</ItemGroup>
